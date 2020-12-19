@@ -1,0 +1,182 @@
+---
+title: "newpack"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options:
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  echo = T,
+  message = F,
+  warning = F
+)
+```
+
+```{r setup1, include=FALSE, results='hide'}
+library(emisjaspal)
+```
+
+***
+
+**Piotr Felczak**
+AGH, Wydział Geodezji Górniczej i Inżynierii Środowiska  
+Geoinformacja III rok
+
+**e-mail:** *[piotrfelczak8@gmail.com]*
+
+***
+## 1. Opis pakietu
+***
+
+Celem pakietu `newpack` jest policzenie emisji zanieczyszczeń powietrza dla zadanych parametrów.
+W pakiecie znajdują się dwie funcje: ``fun_pack()``, oraz ``pfwykres()``
+Obie funkcje korzystają z danych zawartych w pliku excel: ``1.A.3.b.i-iv Road Transport Appendix 4 Emission Factors 2019``, których nie ma w pakiecie.
+Plik został wsptępnie przerobiony i zapisany do zmiennych ``input`` oraz ``wskazniki``
+Funkcja ``fun_pack()`` liczy emisje zanieczyszczeń powietrza dla zadanych flitrów.
+Funkcja ``pfwykres()`` rysuje wykres emisji zanieczyszczeń powietrza dla zadanych parametrów.
+
+***
+## 2. Instalacja pakietu
+***
+
+Pakiet zosta umieszczony na stronie [github](https://github.com/).
+Do instalacji pakietu potrzebny bedzie pakiet ``devtools``
+
+```{r, eval=F}
+
+if (!require(devtools)) {install.packages("devtools"); require(devtools)}
+
+```
+
+Nastepnie pobieramy pakiet przy uzyciu funkcji ``install_git()``
+
+```{r, eval=F}
+
+#install_git("https://github.com/pfelczak/newpack")
+
+```
+
+Wczytanie pakietu.
+
+```{r, eval=F}
+
+library(emisjaspal)
+
+```
+
+Pakiet automatycznie instaluje wszystkie potrzebne dodatkowe pakiety np. ``tidyverse``
+
+***
+## 3. Opis danych wejsciowych
+***
+
+Dane ``wskazniki`` oraz ``input`` korzystaja z pliku ``1.A.3.b.i-iv Road Transport Appendix 4 Emission Factors 2019``. 
+
+Nazwy kolumn zmiennej ``wsazniki``
+
+```{r echo=FALSE}
+
+colnames(wskazniki)
+
+```
+
+Nazwy kolumn zmiennej ``input``
+
+```{r echo=FALSE}
+
+colnames(input)
+
+```
+
+
+pelny opis danych mozna zobaczyc uzywajac funkcji:
+
+```{r, eval=F}
+
+?wskazniki
+?input
+
+```
+
+***
+## 4. Przyklad użycia pakietu
+***
+
+### 4.1 Przykad użycia funkcji fun_pack()
+
+Funkcja ``fun_pack()`` pozwala obliczyc emisje zanieczyszczen dla poszczegolnych parametrow. W wywolaniu funkcji możemy okreslic nastepujace flitrowanie po okreslonych zmiennych
+
+*  po zmiennej kategoria
+
+dostepne filtry:
+   
+```{r}
+
+unique(wskazniki$Category)
+
+```
+
+*  po zmiennej euro
+
+dostepne filtry:
+   
+```{r}
+
+unique(wskazniki$EuroStandard)
+
+```
+*  po zmiennej zanieczyszczenie 
+
+dostepne filtry:
+   
+```{r}
+
+unique(wskazniki$Pollutant)
+
+```
+
+Przyklad użycia:
+
+
+```{r}
+
+emisjadk(input, "Passenger Cars", "Euro 5", c("EC", "CO"),"")
+emisjadk(input, "Passenger Cars", "Euro 4", , "")
+emisjadk(input, "Passenger Cars", "Euro 3", "CO" , "")
+
+```
+
+Dodatkowe informacje znajduja sie w dokumentacji funkcji
+
+```{r, eval = F}
+
+?emisjadk()
+
+```
+
+***
+### 4.2 Przykad użycia funkcji wykresdk()
+***
+
+Funkcja ``wykresdk()`` rysuje wykresy dla emisji zanieczyszczen pojazdow.
+
+przyklad użycia:
+
+```{r}
+
+wykresdk(out, "Pollutant")
+wykresdk(out, "Technology")
+wykresdk(out, "EuroStandard")
+
+```
+
+
+
+
