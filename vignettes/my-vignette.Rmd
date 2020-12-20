@@ -59,6 +59,16 @@ if (!require(devtools)) {install.packages("devtools"); require(devtools)}
 
 ```
 
+Dodatkowe wymagane pakiety
+
+```{r,  eval=F}
+
+library("tidyverse")
+library("dplyr")
+library("car")
+
+```
+
 Pobieramy pakiet przy uzyciu ``install_git()``
 
 ```{r, eval=F}
@@ -123,7 +133,7 @@ unique(wskazniki$Pollutant)
 
 ```
 
-Przyklady użycia:
+Przyklady uzycia:
 
 
 ```{r}
@@ -150,6 +160,8 @@ Przyklady uzycia:
 emisjadk(input, "Passenger Cars", "Euro 5", c("EC", "CO"),"")
 
 ```
+
+Wykres można filtrowac po nastepujacych kolumnach ``Fuel``, ``EuroStandard``, ``Technology``,``Pollutant``oraz ``Segment``.Ponizej przyklady zastosowania.
 
 ```{r}
 
