@@ -8,7 +8,7 @@
 #' @param filtr character - filtr kolumny kategorii
 #'
 #' @return
-#' @import dplyr, tidyverse, car
+#' @import dplyr tidyverse car
 #'
 #' @examples
 #' 1. wykresdk(out, "Pollutant")

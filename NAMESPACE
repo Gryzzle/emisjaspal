@@ -2,8 +2,6 @@
 
 export(emisjadk)
 export(wykresdk)
-import("dplyr,")
-import("tidyverse,")
 import(car)
 import(dplyr)
 import(ggplot2)
