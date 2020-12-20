@@ -75,7 +75,7 @@ library(emisjaspal)
 
 ```
 
-Pakiet automatycznie instaluje inne potrzebne pakiety np. ``tidyverse``
+Pakiet automatycznie instaluje inne potrzebne pakiety np. ``tidyverse``, ``car``
 
 ***
 ## 3. Opis danych wejsciowych
