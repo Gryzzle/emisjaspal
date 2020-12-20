@@ -1,5 +1,5 @@
 ---
-title: "newpack"
+title: "emisjaspal"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -20,34 +20,38 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup1, include=FALSE, results='hide'}
+
 library(emisjaspal)
+
+devtools::load_all()
+
 ```
 
 ***
 
-**Piotr Felczak**
-AGH, Wydział Geodezji Górniczej i Inżynierii Środowiska  
-Geoinformacja III rok
+**Daria Kazimierczak**
+Studentka I stopnia III roku Geoinformacji na uczelni Akademii Górniczo-Hutniczej im. Stanislawa
+Staszica w Krakowie.
 
-**e-mail:** *[piotrfelczak8@gmail.com]*
+**e-mail:** *dariakaz@interia.pl*
 
 ***
 ## 1. Opis pakietu
 ***
 
-Celem pakietu `newpack` jest policzenie emisji zanieczyszczeń powietrza dla zadanych parametrów.
-W pakiecie znajdują się dwie funcje: ``fun_pack()``, oraz ``pfwykres()``
-Obie funkcje korzystają z danych zawartych w pliku excel: ``1.A.3.b.i-iv Road Transport Appendix 4 Emission Factors 2019``, których nie ma w pakiecie.
-Plik został wsptępnie przerobiony i zapisany do zmiennych ``input`` oraz ``wskazniki``
-Funkcja ``fun_pack()`` liczy emisje zanieczyszczeń powietrza dla zadanych flitrów.
-Funkcja ``pfwykres()`` rysuje wykres emisji zanieczyszczeń powietrza dla zadanych parametrów.
+`emisjaspal` Sluzy do obliczania emisji zanieczyszczen generowanych przez pojazdy.
+Plik zrodlowy nazywa się `` 1.A.3.b.i-iv Road Transport Appendix 4 Emission Factors 2019.xlsx``.
+Plik zostal wstepnie przerobiony i zapisany do zmiennych ``input`` oraz ``wskazniki``.
+W pakiecie zastosowano funkcje.
+Funkcja ``emisjadk()`` oblicza emisje zanieczyszczeń powietrza .
+Funkcja ``wykresdk()`` rysuje wykres emisji zanieczyszczeń powietrza.
 
 ***
 ## 2. Instalacja pakietu
 ***
 
-Pakiet zosta umieszczony na stronie [github](https://github.com/).
-Do instalacji pakietu potrzebny bedzie pakiet ``devtools``
+Pakiet jest umieszczony na stronie [github](https://github.com/).
+Do instalacji pakietu potrzebny jest pakiet ``devtools``.
 
 ```{r, eval=F}
 
@@ -55,15 +59,15 @@ if (!require(devtools)) {install.packages("devtools"); require(devtools)}
 
 ```
 
-Nastepnie pobieramy pakiet przy uzyciu funkcji ``install_git()``
+Pobieramy pakiet przy uzyciu ``install_git()``
 
 ```{r, eval=F}
 
-#install_git("https://github.com/pfelczak/newpack")
+install_git("https://github.com/Gryzzle/emisjaspal")
 
 ```
 
-Wczytanie pakietu.
+Wczytujemy pakiet za pomocą ``library``
 
 ```{r, eval=F}
 
@@ -71,32 +75,16 @@ library(emisjaspal)
 
 ```
 
-Pakiet automatycznie instaluje wszystkie potrzebne dodatkowe pakiety np. ``tidyverse``
+Pakiet automatycznie instaluje inne potrzebne pakiety np. ``tidyverse``
 
 ***
 ## 3. Opis danych wejsciowych
 ***
 
-Dane ``wskazniki`` oraz ``input`` korzystaja z pliku ``1.A.3.b.i-iv Road Transport Appendix 4 Emission Factors 2019``. 
+ ``wskazniki`` są to dane wejsciowe,do których odwołuje się funkcja ``emisjadk()``.
+ ``input`` są to dane wejsciowe, ktore sa argumentem ``emisjadk()``.
 
-Nazwy kolumn zmiennej ``wsazniki``
-
-```{r echo=FALSE}
-
-colnames(wskazniki)
-
-```
-
-Nazwy kolumn zmiennej ``input``
-
-```{r echo=FALSE}
-
-colnames(input)
-
-```
-
-
-pelny opis danych mozna zobaczyc uzywajac funkcji:
+Aby zobaczyć dokumentacje danych wejsciowych mozna uzyc:
 
 ```{r, eval=F}
 
@@ -106,14 +94,12 @@ pelny opis danych mozna zobaczyc uzywajac funkcji:
 ```
 
 ***
-## 4. Przyklad użycia pakietu
+## 4. Przyklady użycia pakietu
 ***
 
-### 4.1 Przykad użycia funkcji fun_pack()
+### 4.1 użycie funkcji emisjadk()
 
-Funkcja ``fun_pack()`` pozwala obliczyc emisje zanieczyszczen dla poszczegolnych parametrow. W wywolaniu funkcji możemy okreslic nastepujace flitrowanie po okreslonych zmiennych
-
-*  po zmiennej kategoria
+W wywolaniu funkcji możemy okreslic flitrowanie po zmiennych.
 
 dostepne filtry:
    
@@ -123,18 +109,13 @@ unique(wskazniki$Category)
 
 ```
 
-*  po zmiennej euro
 
-dostepne filtry:
-   
 ```{r}
 
 unique(wskazniki$EuroStandard)
 
 ```
-*  po zmiennej zanieczyszczenie 
 
-dostepne filtry:
    
 ```{r}
 
@@ -142,37 +123,44 @@ unique(wskazniki$Pollutant)
 
 ```
 
-Przyklad użycia:
+Przyklady użycia:
 
 
 ```{r}
-
 emisjadk(input, "Passenger Cars", "Euro 5", c("EC", "CO"),"")
+```
+
+```{r eval=F}
 emisjadk(input, "Passenger Cars", "Euro 4", , "")
+```
+
+```{r}
 emisjadk(input, "Passenger Cars", "Euro 3", "CO" , "")
 
 ```
 
-Dodatkowe informacje znajduja sie w dokumentacji funkcji
+***
+### 4.2 Uzycie funkcji wykresdk()
+***
 
-```{r, eval = F}
+Przyklady uzycia:
 
-?emisjadk()
+```{r  include=FALSE, results='hide'}
+
+emisjadk(input, "Passenger Cars", "Euro 5", c("EC", "CO"),"")
 
 ```
-
-***
-### 4.2 Przykad użycia funkcji wykresdk()
-***
-
-Funkcja ``wykresdk()`` rysuje wykresy dla emisji zanieczyszczen pojazdow.
-
-przyklad użycia:
 
 ```{r}
 
 wykresdk(out, "Pollutant")
+```
+
+```{r}
 wykresdk(out, "Technology")
+```
+
+```{r}
 wykresdk(out, "EuroStandard")
 
 ```
